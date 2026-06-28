@@ -1,15 +1,16 @@
 #!/bin/bash
 
-if [ $# -ne 3 ];
+if [ $# -ne 4 ];
 then 
     echo "Illegal number of arguments"
-    echo "Usage: infrastructure-enumeration <domain name> <file name for subdomain list> <file name for ip addresses>"
+    echo "Usage: infrastructure-enumeration <domain name> <file name for subdomain list> <file name for ip addresses> <dns records file name>"
     exit 1
 fi
 
 domain=$1
 subdomainfilename=$2
 ipaddressfilename=$3
+dnsrecordsfilename=$4
 
 # certificate transperancy
 curl -s https://crt.sh/\?q\="$domain"\&output\=json | jq .
@@ -30,5 +31,13 @@ do
   host $i | grep "has address" | grep $domain | cut -d" " -f4 > $ipaddressfilename;
 done
 
+shodan init f2hJU9i58SMnaaGUi6M39dDgja8Ffwpf
 
+for i in $(cat '$ipaddressfilename');
+do
+  shodan host $i;
+done
+
+# now displaying all DNS records where I might find more hosts
+dig any inlanefreight.com > $dnsrecordsfilename 
 

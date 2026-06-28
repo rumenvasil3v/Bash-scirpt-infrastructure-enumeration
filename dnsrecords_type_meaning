@@ -1,0 +1,8 @@
+
+A records - ip addresses that point to a specific (sub)domain with A record
+
+MX records - which mail server record. Gives info about which mail server is responsible for managing the emails for the company
+
+NS records - these records show which name servers are used to resolve FQDN to IP addresses.
+
+TXT records - these records often contain verification keys for different third-party providers and other security aspects of DNS, such as SPF, DMARC, and DKIM which are responsible for verifying and confirming the origin of the emails sent.
